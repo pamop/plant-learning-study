@@ -28,15 +28,20 @@ body {
 }
 
 header {
+  width: 100%;
   background: #468966;
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 main {
   flex: 1;
+  display: flex;
+  justify-content: center;
   padding: 2rem;
+  box-sizing: border-box;
 }
 
 .container {

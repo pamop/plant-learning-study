@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Welcome to our study about native plant species in Tennessee.</h1>
+    <h2>Welcome to our study about native plant species in Tennessee.</h2>
     <p>This study takes about 15 minutes. Click below to begin.</p>
     <button @click="start">Start</button>
   </div>
