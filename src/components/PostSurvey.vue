@@ -29,6 +29,11 @@ export default {
   methods: {
     async submit() {
       const pid = this.$route.params.pid;
+      console.log("Submitting post-survey data:", {
+        pid,
+        recall: this.recall,
+        engagement: this.engagement,
+      });
       const payload = {
         pid,
         stage: "post",
@@ -37,12 +42,13 @@ export default {
         timestamp: new Date().toISOString(),
       };
 
-      await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      // TODO: Set up Google Sheets integration
+      // await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      //   method: "POST",
+      //   mode: "no-cors",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(payload),
+      // });
 
       this.$router.push("/thanks");
     },

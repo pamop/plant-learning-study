@@ -8,8 +8,9 @@
     </p>
     <!-- # TODO: Add a link to the game -->
     <p>
-      You can close this window, or click [here] to try out the game the
-      students created without a time limit.
+      You can close this window.
+      <!--, or click [here] to try out the game the
+      students created without a time limit.-->
     </p>
     <p>Advisor: Dr. Pamela Popp - pamela.popp@vanderbilt.edu</p>
   </div>
