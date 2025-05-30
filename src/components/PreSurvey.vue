@@ -100,7 +100,12 @@
           required
         ></textarea>
       </div>
-
+      <div>
+        <p>
+          Please wait a few seconds after clicking "Continue" for the next page
+          to load.
+        </p>
+      </div>
       <!-- Submit -->
       <button type="submit">Continue</button>
     </form>
@@ -166,7 +171,7 @@ export default {
         const formPayload = new URLSearchParams();
 
         formPayload.append("pid", pid);
-        formPayload.append("stage", "pre"); // Add stage to data
+        formPayload.append("survey", "pre"); // Add stage to data
         formPayload.append("timestamp", new Date().toISOString());
         // Add all your form fields (match your sheet headers exactly)
         formPayload.append("age", this.formData.age);
