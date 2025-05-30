@@ -68,11 +68,11 @@
 
         <h3>Narrowleaf Cattail (<em>Typha angustifolia</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/narrow leaf cattail.jpg"
+          :src="base + 'images/plantnames/narrow_leaf_cattail.jpg'"
           alt="Narrowleaf Cattail"
         />
         <img
-          src="/plant-learning-study/images/plantnames/narrow leaf cattail image.jpg"
+          :src="base + 'images/plantnames/narrow_leaf_cattail_image.jpg'"
           alt="Narrowleaf Cattail"
         />
         <ul>
@@ -89,11 +89,11 @@
 
         <h3>Black Chokeberry (<em>Aronia melanocarpa</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/black chokeberry fruit.png"
+          :src="base + 'images/plantnames/black_chokeberry_fruit.png'"
           alt="Black Chokeberry Fruit"
         />
         <img
-          src="/plant-learning-study/images/plantnames/black chokeberry flower.png"
+          :src="base + 'images/plantnames/black_chokeberry_flower.png'"
           alt="Black Chokeberry Flower"
         />
         <ul>
@@ -107,11 +107,11 @@
 
         <h3>Water Tupelo (<em>Nyssa aquatica</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/water tupelo trunk.png"
+          :src="base + 'images/plantnames/water_tupelo_trunk.png'"
           alt="Water Tupelo Trunk"
         />
         <img
-          src="/plant-learning-study/images/plantnames/water tupelo leafs.png"
+          :src="base + 'images/plantnames/water_tupelo_leafs.png'"
           alt="Water Tupelo Leaves"
         />
         <ul>
@@ -124,11 +124,11 @@
 
         <h3>Marsh Marigold (<em>Caltha palustris</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/marsh marigold plant.png"
+          :src="base + 'images/plantnames/marsh_marigold_plant.png'"
           alt="Marsh Marigold Plant"
         />
         <img
-          src="/plant-learning-study/images/plantnames/marsh marigold flower.png"
+          :src="base + 'images/plantnames/marsh_marigold_flower.png'"
           alt="Marsh Marigold Flower"
         />
         <ul>
@@ -159,11 +159,11 @@
 
         <h3>Smooth Blackberry (<em>Rubus canadensis</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/smooth blackberry.png"
+          :src="base + 'images/plantnames/smooth_blackberry.png'"
           alt="Smooth Blackberry"
         />
         <img
-          src="/plant-learning-study/images/plantnames/Smooth blackberry flower.png"
+          :src="base + 'images/plantnames/smooth_blackberry_flower.png'"
           alt="Smooth Blackberry flower"
         />
         <ul>
@@ -176,11 +176,11 @@
 
         <h3>Lowbush Blueberry (<em>Vaccinium angustifolium</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/lowbush blueberry.png"
+          :src="base + 'images/plantnames/lowbush_blueberry.png'"
           alt="Lowbush Blueberry"
         />
         <img
-          src="/plant-learning-study/images/plantnames/lowbush blueberry flower.png"
+          :src="base + 'images/plantnames/lowbush_blueberry_flower.png'"
           alt="Lowbush Blueberry"
         />
         <ul>
@@ -193,7 +193,7 @@
 
         <h3>Silverleaf Mountain Mint (<em>Pycanthemum incanum</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/silver leaf mountain mint.png"
+          :src="base + 'images/plantnames/silver_leaf_mountain_mint.png'"
           alt="Silverleaf Mountain Mint"
         />
         <ul>
@@ -209,12 +209,12 @@
 
         <h3>Little Sweet Betsy (<em>Trillium cuneatum</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/Little_sweet betsy.png"
+          :src="base + 'images/plantnames/little_sweet_betsy.png'"
           alt="Little Sweet Betsy"
         />
         <img
-          src="/plant-learning-study/images/plantnames/little sweet_betsy.png"
-          alt="Little Sweet Betsy"
+          :src="base + 'images/plantnames/little_sweet_betsy_zoom.png'"
+          alt="Little Sweet Betsy - close up"
         />
         <ul>
           <li>
@@ -248,11 +248,11 @@
 
         <h3>Eastern Red Cedar (<em>Juniperus virginiana</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/eastern_red cedar.png"
+          :src="base + 'images/plantnames/eastern_red_cedar.png'"
           alt="Eastern Red Cedar"
         />
         <img
-          src="/plant-learning-study/images/plantnames/eastern red cedar berry.png"
+          :src="base + 'images/plantnames/eastern_red_cedar_berry.png'"
           alt="Eastern Red Cedar Berry"
         />
         <ul>
@@ -265,7 +265,11 @@
 
         <h3>Tennessee Coneflower (<em>Echinacea tennesseensis</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/TN Coneflower.png"
+          :src="base + 'images/plantnames/tn_coneflower.png'"
+          alt="Tennessee Coneflower"
+        />
+        <img
+          :src="base + 'images/plantnames/coneflower.png'"
           alt="Tennessee Coneflower"
         />
         <ul>
@@ -281,8 +285,12 @@
 
         <h3>Wild Strawberry (<em>Fragaria virginiana</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/wild strawberry.jpg"
+          :src="base + 'images/plantnames/wild_strawberry.jpg'"
           alt="Wild Strawberry"
+        />
+        <img
+          :src="base + 'images/plantnames/strawberry_flower.png'"
+          alt="Wild Strawberry Flower"
         />
         <ul>
           <li>Native to almost all of North America</li>
@@ -297,11 +305,11 @@
 
         <h3>Black Walnut (<em>Juglans nigra</em>)</h3>
         <img
-          src="/plant-learning-study/images/plantnames/black walnut.png"
+          :src="base + 'images/plantnames/black_walnut.png'"
           alt="Black Walnut"
         />
         <img
-          src="/plant-learning-study/images/plantnames/black walnut leafs.png"
+          :src="base + 'images/plantnames/black_walnut_leafs.png'"
           alt="Black Walnut"
         />
         <ul>
@@ -330,6 +338,7 @@ export default {
   data() {
     return {
       // articleURL: "https://docs.google.com/document/d/your-doc-id/preview", // or published link
+      base: import.meta.env.BASE_URL,
       totalTime: 600, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
       timeLeft: 600, // 10 minutes
     };
