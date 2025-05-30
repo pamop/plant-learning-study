@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>Native Plants in Tennessee</h2>
+    <h2>Tennessee Native Plants</h2>
     <iframe
       :src="gameURL"
       width="100%"
@@ -21,8 +21,8 @@ export default {
   data() {
     return {
       gameURL: "*/game/index.html", // local build from Godot
-      totalTime: 6, // in seconds
-      timeLeft: 6, // 10 minutes
+      totalTime: 6, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
+      timeLeft: 6, // 10 minutes = 600 seconds
     };
   },
   computed: {
