@@ -6,7 +6,7 @@
       <div v-for="(q, i) in scaleQuestions" :key="i" class="form-group">
         <label class="question-text">{{ q.text }}</label>
         <div class="scale-labels">
-          <span>None</span>
+          <span>Not at all</span>
           <div class="scale-options">
             <label v-for="n in 7" :key="n">
               <input
@@ -255,6 +255,8 @@ export default {
     async submitForm() {
       console.log("Submitting post-survey data...");
       const pid = this.$route.params.pid; // Get participant ID from URL
+      this.treatment = this.$route.query.treatment || "unknown"; // Get treatment from query params
+
       const scriptUrl =
         "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
 
@@ -265,6 +267,8 @@ export default {
         formPayload.append("pid", pid);
         formPayload.append("survey", "post"); // Change stage to post
         formPayload.append("timestamp", new Date().toISOString());
+        formPayload.append("treatment", this.treatment);
+
         // Add all your form fields (match your sheet headers exactly)
         formPayload.append("engagementPost", this.formData.engagementPost);
         formPayload.append("motivationPost", this.formData.motivationPost);

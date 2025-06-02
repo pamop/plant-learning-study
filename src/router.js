@@ -8,13 +8,13 @@ import PostSurvey from "./components/PostSurvey.vue";
 import Thanks from "./components/Thanks.vue";
 
 const routes = [
-  { path: "/", component: Landing },
-  { path: "/pre-survey/:pid", component: PreSurvey },
-  { path: "/treatment/:pid", component: Treatment },
-  { path: "/game/:pid", component: Game },
-  { path: "/article/:pid", component: Article },
-  { path: "/post-survey/:pid", component: PostSurvey },
-  { path: "/thanks", component: Thanks },
+  { path: "/", name: "Landing", component: Landing },
+  { path: "/pre-survey/:pid", name: "PreSurvey", component: PreSurvey },
+  { path: "/treatment/:pid", name: "Treatment", component: Treatment },
+  { path: "/game/:pid", name: "Game", component: Game },
+  { path: "/article/:pid", name: "Article", component: Article },
+  { path: "/post-survey/:pid", name: "PostSurvey", component: PostSurvey },
+  { path: "/thanks", name: "Thanks", component: Thanks },
 ];
 
 export const router = createRouter({

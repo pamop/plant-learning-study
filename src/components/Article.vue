@@ -350,11 +350,18 @@ export default {
   },
   mounted() {
     const pid = this.$route.params.pid;
+    const treatment = this.$route.query.treatment;
+
     this.timer = setInterval(() => {
       this.timeLeft--;
       if (this.timeLeft < 0) {
         clearInterval(this.timer);
-        this.$router.push(`/post-survey/${pid}`);
+        // this.$router.push(`/post-survey/${pid}`);
+        this.$router.push({
+          name: "PostSurvey",
+          params: { pid: this.$route.params.pid },
+          query: { treatment },
+        });
       }
     }, 1000);
   },
