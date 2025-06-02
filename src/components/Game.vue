@@ -1,12 +1,21 @@
 <template>
   <div class="container">
     <h2>Tennessee Native Plants</h2>
-    <iframe
-      :src="gameURL"
-      width="100%"
-      height="600px"
-      style="border: 1px solid #ccc; border-radius: 8px"
-    ></iframe>
+    <p>
+      You have ten minutes to interact with the activity below. You will be
+      advanced to the next page automatically when time is up.
+    </p>
+    <div class="iframe-wrapper">
+      <div class="iframe-scaler">
+        <iframe
+          :src="gameURL"
+          class="game-iframe"
+          allowfullscreen
+          scrolling="no"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
     <div class="time-remaining">
       <p>Time remaining:</p>
       <div class="progress-wrapper">
@@ -20,9 +29,9 @@
 export default {
   data() {
     return {
-      gameURL: "*/game/index.html", // local build from Godot
-      totalTime: 6, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
-      timeLeft: 6, // 10 minutes = 600 seconds
+      gameURL: `${import.meta.env.BASE_URL}game/index.html`, // local build from Godot
+      totalTime: 600, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
+      timeLeft: 600, // 10 minutes = 600 seconds
     };
   },
   computed: {
@@ -31,6 +40,10 @@ export default {
     },
   },
   mounted() {
+    // Add resize observer for the iframe
+    this.handleIframeResize();
+    window.addEventListener("resize", this.handleIframeResize);
+
     const pid = this.$route.params.pid;
     const treatment = this.$route.query.treatment;
 
@@ -49,6 +62,34 @@ export default {
   },
   beforeUnmount() {
     clearInterval(this.timer);
+    window.removeEventListener("resize", this.handleIframeResize);
+  },
+  methods: {
+    handleIframeResize() {
+      const iframe = document.querySelector(".game-iframe");
+      if (!iframe) return;
+
+      const wrapper = iframe.closest(".iframe-wrapper");
+      const gameAspect = 16 / 9; // Match your Godot game's aspect ratio
+
+      // Calculate scale based on container size
+      const containerWidth = wrapper.clientWidth;
+      const containerHeight = wrapper.clientHeight;
+      const containerAspect = containerWidth / containerHeight;
+
+      let scale;
+      if (containerAspect > gameAspect) {
+        // Container is wider than game - scale based on height
+        scale = containerHeight / 270; // 270 is your game's height
+      } else {
+        // Container is taller than game - scale based on width
+        scale = containerWidth / 480; // 480 is your game's width
+      }
+
+      iframe.style.transform = `scale(${scale})`;
+      iframe.style.width = `${480}px`; // Original game width
+      iframe.style.height = `${270}px`; // Original game height
+    },
   },
 };
 </script>
@@ -73,5 +114,32 @@ export default {
   font-size: 0.95rem;
   font-weight: 500;
   color: #555;
+}
+.iframe-wrapper {
+  width: 100%;
+  max-width: 960px; /* Or whatever max width you want */
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.iframe-scaler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.game-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  transform-origin: 0 0;
 }
 </style>
