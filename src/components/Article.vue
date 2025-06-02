@@ -10,6 +10,11 @@
     <article>
       <h1>Tennessee Native Plants</h1>
 
+      <p>
+        You have ten minutes to interact with the activity below. You will be
+        advanced to the next page automatically when time is up.
+      </p>
+
       <section>
         <p>
           Native plants have a lot of unknown effects on the environment that
