@@ -1,7 +1,12 @@
 <template>
   <div class="container">
-    <h1>Thanks for participating!</h1>
-    <p>Your responses have been recorded.</p>
+    <h1>Thanks for participating in our study!</h1>
+    <p>
+      If you are interested in following along to see our results, check out the
+      code repository
+      <a href="https://github.com/pamop/plant-learning-study">here</a>
+      around June 13th, 2025.
+    </p>
     <p>
       If you have questions about the study, feel free to reach out to the
       research team.
