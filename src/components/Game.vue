@@ -30,8 +30,8 @@ export default {
   data() {
     return {
       gameURL: `${import.meta.env.BASE_URL}game/index.html`, // local build from Godot
-      totalTime: 600, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
-      timeLeft: 600, // 10 minutes = 600 seconds
+      totalTime: 30, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
+      timeLeft: 30, // 10 minutes = 600 seconds
     };
   },
   computed: {

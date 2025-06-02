@@ -344,8 +344,8 @@ export default {
     return {
       // articleURL: "https://docs.google.com/document/d/your-doc-id/preview", // or published link
       base: import.meta.env.BASE_URL,
-      totalTime: 600, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
-      timeLeft: 600, // 10 minutes
+      totalTime: 30, // in seconds // 10 minutes = 600 seconds // TODO: Update to 600 seconds after testing
+      timeLeft: 30, // 10 minutes
     };
   },
   computed: {
