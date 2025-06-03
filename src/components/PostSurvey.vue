@@ -176,7 +176,7 @@ export default {
           text: "7. Identify the plant in the image below:",
           image: "/plant-learning-study/images/plant_7.png",
           options: [
-            "Wild srawberry",
+            "Wild strawberry",
             "Smooth blackberry",
             "Red raspberry",
             "Muscadine grape",
