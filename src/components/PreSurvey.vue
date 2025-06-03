@@ -107,7 +107,9 @@
         </p>
       </div>
       <!-- Submit -->
-      <button type="submit">Continue</button>
+      <button type="submit" :disabled="submitting">
+        {{ submitting ? "Submitting..." : "Continue" }}
+      </button>
     </form>
   </div>
 </template>
@@ -116,6 +118,7 @@
 export default {
   data() {
     return {
+      submitting: false,
       formData: {
         age: "",
         grade: "",
@@ -161,70 +164,82 @@ export default {
   },
   methods: {
     async submitForm() {
-      console.log("Submitting pre-survey data...");
-      const pid = this.$route.params.pid; // Get participant ID from URL
-      const scriptUrl =
-        "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
+      if (this.submitting) return; // extra guard
+      this.submitting = true;
 
       try {
-        // Prepare form data for your current script format
-        const formPayload = new URLSearchParams();
+        console.log("Submitting pre-survey data...");
+        const pid = this.$route.params.pid; // Get participant ID from URL
+        const scriptUrl =
+          "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
 
-        formPayload.append("pid", pid);
-        formPayload.append("survey", "pre"); // Add stage to data
-        formPayload.append("timestamp", new Date().toISOString());
-        // Add all your form fields (match your sheet headers exactly)
-        formPayload.append("age", this.formData.age);
-        formPayload.append("grade", this.formData.grade);
-        // Add all other fields...
-        if (this.formData.grade === "Other") {
-          formPayload.append("gradeOther", this.formData.gradeOther);
-        }
-        formPayload.append("gender", this.formData.gender);
-        // Continue with all other fields...
-        formPayload.append("liveInTN", this.formData.liveInTN);
-        if (this.formData.liveInTN === "Yes") {
-          formPayload.append("yearsInTN", this.formData.yearsInTN);
-        }
-        formPayload.append("knowledgeGeneral", this.formData.knowledgeGeneral);
-        formPayload.append("interestGeneral", this.formData.interestGeneral);
-        formPayload.append("interestNative", this.formData.interestNative);
-        formPayload.append("motivationGame", this.formData.motivationGame);
-        formPayload.append(
-          "motivationArticle",
-          this.formData.motivationArticle
-        );
-        formPayload.append("natureTime", this.formData.natureTime);
-        formPayload.append(
-          "interestShortAnswer",
-          this.formData.interestShortAnswer
-        );
-        // Log the payload for debugging
-        console.log(
-          "Submitting pre-survey data:",
-          Object.fromEntries(formPayload)
-        );
-        // Send data to Google Sheets
-        const response = await fetch(scriptUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
-          },
-          body: formPayload,
-        });
+        try {
+          // Prepare form data for your current script format
+          const formPayload = new URLSearchParams();
 
-        const result = await response.json();
+          formPayload.append("pid", pid);
+          formPayload.append("survey", "pre"); // Add stage to data
+          formPayload.append("timestamp", new Date().toISOString());
+          // Add all your form fields (match your sheet headers exactly)
+          formPayload.append("age", this.formData.age);
+          formPayload.append("grade", this.formData.grade);
+          // Add all other fields...
+          if (this.formData.grade === "Other") {
+            formPayload.append("gradeOther", this.formData.gradeOther);
+          }
+          formPayload.append("gender", this.formData.gender);
+          // Continue with all other fields...
+          formPayload.append("liveInTN", this.formData.liveInTN);
+          if (this.formData.liveInTN === "Yes") {
+            formPayload.append("yearsInTN", this.formData.yearsInTN);
+          }
+          formPayload.append(
+            "knowledgeGeneral",
+            this.formData.knowledgeGeneral
+          );
+          formPayload.append("interestGeneral", this.formData.interestGeneral);
+          formPayload.append("interestNative", this.formData.interestNative);
+          formPayload.append("motivationGame", this.formData.motivationGame);
+          formPayload.append(
+            "motivationArticle",
+            this.formData.motivationArticle
+          );
+          formPayload.append("natureTime", this.formData.natureTime);
+          formPayload.append(
+            "interestShortAnswer",
+            this.formData.interestShortAnswer
+          );
+          // Log the payload for debugging
+          console.log(
+            "Submitting pre-survey data:",
+            Object.fromEntries(formPayload)
+          );
+          // Send data to Google Sheets
+          const response = await fetch(scriptUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
+            },
+            body: formPayload,
+          });
 
-        if (result.result === "success") {
-          console.log("Data saved to row:", result.row);
-        } else {
-          throw new Error(result.error || "Submission failed");
+          const result = await response.json();
+
+          if (result.result === "success") {
+            console.log("Data saved to row:", result.row);
+          } else {
+            throw new Error(result.error || "Submission failed");
+          }
+        } catch (error) {
+          console.error("Submission error:", error);
+          alert("Failed to submit form. Please try again.");
         }
+        this.$router.push(`/treatment/${pid}`); // go to next page in route
       } catch (error) {
-        console.error("Submission error:", error);
-        alert("Failed to submit form. Please try again.");
+        alert("Submission failed. Please try again.");
+        console.error(error);
+        this.submitting = false; // allow retry
       }
-      this.$router.push(`/treatment/${pid}`); // go to next page in route
     },
   },
 };
@@ -263,5 +278,9 @@ select {
   gap: 0.5rem;
   justify-content: center;
   flex-grow: 1;
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>

@@ -70,7 +70,9 @@
         </p>
       </div>
       <!-- Submit -->
-      <button type="submit">Continue</button>
+      <button type="submit" :disabled="submitting">
+        {{ submitting ? "Submitting..." : "Continue" }}
+      </button>
     </form>
   </div>
 </template>
@@ -79,6 +81,7 @@
 export default {
   data() {
     return {
+      submitting: false,
       formData: {
         engagementPost: "",
         motivationPost: "",
@@ -253,67 +256,75 @@ export default {
   },
   methods: {
     async submitForm() {
-      console.log("Submitting post-survey data...");
-      const pid = this.$route.params.pid; // Get participant ID from URL
-      this.treatment = this.$route.query.treatment || "unknown"; // Get treatment from query params
-
-      const scriptUrl =
-        "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
-
+      if (this.submitting) return; // extra guard
+      this.submitting = true;
       try {
-        // Prepare form data for your current script format
-        const formPayload = new URLSearchParams();
+        console.log("Submitting post-survey data...");
+        const pid = this.$route.params.pid; // Get participant ID from URL
+        this.treatment = this.$route.query.treatment || "unknown"; // Get treatment from query params
 
-        formPayload.append("pid", pid);
-        formPayload.append("survey", "post"); // Change stage to post
-        formPayload.append("timestamp", new Date().toISOString());
-        formPayload.append("treatment", this.treatment);
+        const scriptUrl =
+          "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
 
-        // Add all your form fields (match your sheet headers exactly)
-        formPayload.append("engagementPost", this.formData.engagementPost);
-        formPayload.append("motivationPost", this.formData.motivationPost);
-        formPayload.append("plant1", this.formData.plant1);
-        formPayload.append("plant2", this.formData.plant2);
-        formPayload.append("plant3", this.formData.plant3);
-        formPayload.append("plant4", this.formData.plant4);
-        formPayload.append("plant5", this.formData.plant5);
-        formPayload.append("plant6", this.formData.plant6);
-        formPayload.append("plant7", this.formData.plant7);
-        formPayload.append("plant8", this.formData.plant8);
-        formPayload.append("plant9", this.formData.plant9);
-        formPayload.append("plant10", this.formData.plant10);
-        formPayload.append("plant11", this.formData.plant11);
-        formPayload.append("plant12", this.formData.plant12);
-        formPayload.append("miscShortAnswer", this.formData.miscShortAnswer);
+        try {
+          // Prepare form data for your current script format
+          const formPayload = new URLSearchParams();
 
-        // Log the payload for debugging
-        console.log(
-          "Submitting post-survey data:",
-          Object.fromEntries(formPayload)
-        );
-        console.log("Sending survey type:", formPayload.get("survey")); // should log 'post'
+          formPayload.append("pid", pid);
+          formPayload.append("survey", "post"); // Change stage to post
+          formPayload.append("timestamp", new Date().toISOString());
+          formPayload.append("treatment", this.treatment);
 
-        // Send data to Google Sheets
-        const response = await fetch(scriptUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
-          },
-          body: formPayload,
-        });
+          // Add all your form fields (match your sheet headers exactly)
+          formPayload.append("engagementPost", this.formData.engagementPost);
+          formPayload.append("motivationPost", this.formData.motivationPost);
+          formPayload.append("plant1", this.formData.plant1);
+          formPayload.append("plant2", this.formData.plant2);
+          formPayload.append("plant3", this.formData.plant3);
+          formPayload.append("plant4", this.formData.plant4);
+          formPayload.append("plant5", this.formData.plant5);
+          formPayload.append("plant6", this.formData.plant6);
+          formPayload.append("plant7", this.formData.plant7);
+          formPayload.append("plant8", this.formData.plant8);
+          formPayload.append("plant9", this.formData.plant9);
+          formPayload.append("plant10", this.formData.plant10);
+          formPayload.append("plant11", this.formData.plant11);
+          formPayload.append("plant12", this.formData.plant12);
+          formPayload.append("miscShortAnswer", this.formData.miscShortAnswer);
 
-        const result = await response.json();
+          // Log the payload for debugging
+          console.log(
+            "Submitting post-survey data:",
+            Object.fromEntries(formPayload)
+          );
+          console.log("Sending survey type:", formPayload.get("survey")); // should log 'post'
 
-        if (result.result === "success") {
-          console.log("Data saved to row:", result.row);
-        } else {
-          throw new Error(result.error || "Submission failed");
+          // Send data to Google Sheets
+          const response = await fetch(scriptUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
+            },
+            body: formPayload,
+          });
+
+          const result = await response.json();
+
+          if (result.result === "success") {
+            console.log("Data saved to row:", result.row);
+          } else {
+            throw new Error(result.error || "Submission failed");
+          }
+        } catch (error) {
+          console.error("Submission error:", error);
+          alert("Failed to submit form. Please try again.");
         }
+        this.$router.push(`/thanks`); // go to next page in route
       } catch (error) {
-        console.error("Submission error:", error);
-        alert("Failed to submit form. Please try again.");
+        alert("Submission failed. Please try again.");
+        console.error(error);
+        this.submitting = false; // allow retry
       }
-      this.$router.push(`/thanks`); // go to next page in route
     },
   },
 };
@@ -380,5 +391,9 @@ input[type="radio"] {
   object-fit: cover;
   border-radius: 8px;
   margin-top: 0.5rem;
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 </style>
