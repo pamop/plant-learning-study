@@ -8,12 +8,16 @@
       style="border: 1px solid #ccc; border-radius: 8px"
     ></iframe> -->
     <article>
-      <h1>Tennessee Native Plants</h1>
-
       <p>
-        You have ten minutes to interact with the activity below. You will be
-        advanced to the next page automatically when time is up.
+        <i
+          >This is the article that was used in the study. In the original
+          study, there was a timer so that participants would have ten minutes
+          to read the article. The timer is not included here, but you can still
+          read the article at your own pace.</i
+        >
       </p>
+
+      <h1>Tennessee Native Plants</h1>
 
       <section>
         <p>
@@ -328,13 +332,20 @@
         </ul>
       </section>
     </article>
+    <p>
+      <i
+        >In the original study, participants were moved to the post-survey after
+        10 minutes.</i
+      >
+    </p>
+    <router-link to="/" class="demo-button">Go Home</router-link>
 
-    <div class="time-remaining">
+    <!-- <div class="time-remaining">
       <p>Time remaining:</p>
       <div class="progress-wrapper">
         <div class="progress-bar" :style="{ width: `${progressWidth}%` }"></div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -354,21 +365,20 @@ export default {
     },
   },
   mounted() {
-    const pid = this.$route.params.pid;
-    const treatment = this.$route.query.treatment;
-
-    this.timer = setInterval(() => {
-      this.timeLeft--;
-      if (this.timeLeft < 0) {
-        clearInterval(this.timer);
-        // this.$router.push(`/post-survey/${pid}`);
-        this.$router.push({
-          name: "PostSurvey",
-          params: { pid: this.$route.params.pid },
-          query: { treatment },
-        });
-      }
-    }, 1000);
+    // const pid = this.$route.params.pid;
+    // const treatment = this.$route.query.treatment;
+    // this.timer = setInterval(() => {
+    //   this.timeLeft--;
+    //   if (this.timeLeft < 0) {
+    //     clearInterval(this.timer);
+    //     // this.$router.push(`/post-survey/${pid}`);
+    //     this.$router.push({
+    //       name: "PostSurvey",
+    //       params: { pid: this.$route.params.pid },
+    //       query: { treatment },
+    //     });
+    //   }
+    // }, 1000);
   },
   beforeUnmount() {
     clearInterval(this.timer);
@@ -401,5 +411,19 @@ export default {
 img {
   max-width: 300px;
   height: auto;
+}
+.demo-button {
+  background-color: #468966;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.demo-button:hover {
+  background-color: #356b51;
 }
 </style>

@@ -1,32 +1,59 @@
 <template>
   <div>
-    <h2>Welcome to our study!</h2>
+    <h2>Welcome to our study about Tennessee native plants!</h2>
     <p>
-      Thank you for participating in this study on learning methods. This study
-      will take around 15 minutes.
+      This website was built to deliver a study about Tennessee native plants.
+      It compared whether students learned better from playing a game or from
+      reading an article.
     </p>
-    <p>If you are on a mobile device, please <b>use a computer</b> instead!</p>
     <p>
-      This study starts off with a pre-survey that asks about your current
-      knowledge and motivation towards learning about native plants. Then, you
-      will do an activity for 10 minutes to learn about different plant types.
-      After, you will take a post survey that asks you about the material you
-      learned. You don’t need to get a perfect score! The data is only useful if
-      we are collecting what you actually know; please don’t get answers from
-      other people or your other devices. Thank you!
+      Use the buttons below to check out the Game, Article or surveys that were
+      a part of this study.
     </p>
-    <p>Click below to begin.</p>
-    <button @click="start">Start</button>
+
+    <div class="button-group">
+      <router-link to="/game" class="demo-button">🎮 Play the Game</router-link>
+      <router-link to="/article" class="demo-button"
+        >📖 Read the Article</router-link
+      >
+      <router-link to="/pre-survey" class="demo-button"
+        >📝 Try the Pre-Survey</router-link
+      >
+      <router-link to="/post-survey" class="demo-button"
+        >📊 Try the Post-Survey</router-link
+      >
+    </div>
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    start() {
-      const pid = crypto.randomUUID();
-      this.$router.push(`/pre-survey/${pid}`);
-    },
-  },
-};
-</script>
+<style scoped>
+.landing {
+  max-width: 700px;
+  margin: 3rem auto;
+  text-align: center;
+  padding: 1rem;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.demo-button {
+  background-color: #468966;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.demo-button:hover {
+  background-color: #356b51;
+}
+</style>

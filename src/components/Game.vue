@@ -2,8 +2,9 @@
   <div class="container">
     <h2>Tennessee Native Plants</h2>
     <p>
-      You have ten minutes to interact with the activity below. You will be
-      advanced to the next page automatically when time is up.
+      Here, you can try out the game. The game was designed to work with a mouse
+      and keyboard, so you won't be able to control it on a phone. If you are on
+      a mobile device, please <b>use a computer</b> instead!
     </p>
     <div class="iframe-wrapper">
       <div class="iframe-scaler">
@@ -16,12 +17,20 @@
         ></iframe>
       </div>
     </div>
-    <div class="time-remaining">
+    <div>
+      <p>
+        Note: In the original experiment, there was a ten-minute timer on the
+        activity.
+      </p>
+    </div>
+    <router-link to="/" class="demo-button">Go Home</router-link>
+
+    <!-- <div class="time-remaining">
       <p>Time remaining:</p>
       <div class="progress-wrapper">
         <div class="progress-bar" :style="{ width: `${progressWidth}%` }"></div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,24 +53,24 @@ export default {
     this.handleIframeResize();
     window.addEventListener("resize", this.handleIframeResize);
 
-    const pid = this.$route.params.pid;
-    const treatment = this.$route.query.treatment;
+    // const pid = this.$route.params.pid;
+    // const treatment = this.$route.query.treatment;
 
-    this.timer = setInterval(() => {
-      this.timeLeft--;
-      if (this.timeLeft < 0) {
-        clearInterval(this.timer);
-        // this.$router.push(`/post-survey/${pid}`);
-        this.$router.push({
-          name: "PostSurvey",
-          params: { pid: this.$route.params.pid },
-          query: { treatment },
-        });
-      }
-    }, 1000);
+    // this.timer = setInterval(() => {
+    //   this.timeLeft--;
+    //   if (this.timeLeft < 0) {
+    //     clearInterval(this.timer);
+    //     // this.$router.push(`/post-survey/${pid}`);
+    //     this.$router.push({
+    //       name: "PostSurvey",
+    //       params: { pid: this.$route.params.pid },
+    //       query: { treatment },
+    //     });
+    //   }
+    // }, 1000);
   },
   beforeUnmount() {
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
     window.removeEventListener("resize", this.handleIframeResize);
   },
   methods: {
@@ -141,5 +150,19 @@ export default {
   border: none;
   display: block;
   transform-origin: 0 0;
+}
+.demo-button {
+  background-color: #468966;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.demo-button:hover {
+  background-color: #356b51;
 }
 </style>

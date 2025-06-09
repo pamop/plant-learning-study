@@ -82,6 +82,24 @@ npm run deploy
 References:
 [How to Deploy Your Vite/Vue 3 Application in GitHub Pages 2023](https://mkay11.medium.com/how-to-deploy-your-vite-vue-3-application-in-github-pages-2023-2b842f50576a)
 
+### Testing and updating your site
+
+To test your site build locally, run
+
+```sh
+npm run dev
+```
+
+And follow the provided link to open it in your browser.
+
+Every time you want to update the live website, run
+
+```sh
+npm run deploy
+```
+
+which will build the local dist/ files. You will then need to `git commit...` these as usual and `git push` to update the live website.
+
 ### Setting up Google Sheets integration
 
 Follow steps 1 through 5 in the tutorial [here](https://github.com/levinunnink/html-form-to-google-sheet), but with your own custom column headers. Copy the web app url from the deployment and insert it in the submit method in the vue page with the form.

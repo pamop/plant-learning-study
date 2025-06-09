@@ -9,11 +9,11 @@ import Thanks from "./components/Thanks.vue";
 
 const routes = [
   { path: "/", name: "Landing", component: Landing },
-  { path: "/pre-survey/:pid", name: "PreSurvey", component: PreSurvey },
-  { path: "/treatment/:pid", name: "Treatment", component: Treatment },
-  { path: "/game/:pid", name: "Game", component: Game },
-  { path: "/article/:pid", name: "Article", component: Article },
-  { path: "/post-survey/:pid", name: "PostSurvey", component: PostSurvey },
+  { path: "/pre-survey/:pid?", name: "PreSurvey", component: PreSurvey },
+  { path: "/treatment/:pid?", name: "Treatment", component: Treatment },
+  { path: "/game/:pid?", name: "Game", component: Game },
+  { path: "/article/:pid?", name: "Article", component: Article },
+  { path: "/post-survey/:pid?", name: "PostSurvey", component: PostSurvey },
   { path: "/thanks", name: "Thanks", component: Thanks },
 ];
 

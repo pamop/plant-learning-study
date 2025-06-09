@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <h2>Post-Survey</h2>
-    <form @submit.prevent="submitForm">
+    <form>
       <!-- Motivation scale question -->
       <div v-for="(q, i) in scaleQuestions" :key="i" class="form-group">
         <label class="question-text">{{ q.text }}</label>
@@ -14,7 +14,6 @@
                 :name="`scale${i}`"
                 :value="n"
                 v-model="formData[q.model]"
-                required
               />
               {{ n }}
             </label>
@@ -44,7 +43,6 @@
               :name="`plant${q.id}`"
               :value="option"
               v-model="formData[q.model]"
-              required
             />
             {{ option }}
           </label>
@@ -60,19 +58,21 @@
           id="miscShortAnswer"
           v-model="formData.miscShortAnswer"
           rows="4"
-          required
         ></textarea>
       </div>
-      <div>
-        <p>
-          Please wait a few seconds after clicking "Continue" for the final page
-          to load.
-        </p>
-      </div>
-      <!-- Submit -->
+      <div><br /></div>
+      <!-- Submit button -->
+      <!-- Submit
       <button type="submit" :disabled="submitting">
         {{ submitting ? "Submitting..." : "Continue" }}
-      </button>
+      </button> -->
+      <p>
+        <i
+          >If this were the real experiment, you would be able to submit your
+          survey responses here.</i
+        >
+      </p>
+      <router-link to="/" class="demo-button">Go Home</router-link>
     </form>
   </div>
 </template>
@@ -256,75 +256,68 @@ export default {
   },
   methods: {
     async submitForm() {
-      if (this.submitting) return; // extra guard
-      this.submitting = true;
-      try {
-        console.log("Submitting post-survey data...");
-        const pid = this.$route.params.pid; // Get participant ID from URL
-        this.treatment = this.$route.query.treatment || "unknown"; // Get treatment from query params
-
-        const scriptUrl =
-          "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
-
-        try {
-          // Prepare form data for your current script format
-          const formPayload = new URLSearchParams();
-
-          formPayload.append("pid", pid);
-          formPayload.append("survey", "post"); // Change stage to post
-          formPayload.append("timestamp", new Date().toISOString());
-          formPayload.append("treatment", this.treatment);
-
-          // Add all your form fields (match your sheet headers exactly)
-          formPayload.append("engagementPost", this.formData.engagementPost);
-          formPayload.append("motivationPost", this.formData.motivationPost);
-          formPayload.append("plant1", this.formData.plant1);
-          formPayload.append("plant2", this.formData.plant2);
-          formPayload.append("plant3", this.formData.plant3);
-          formPayload.append("plant4", this.formData.plant4);
-          formPayload.append("plant5", this.formData.plant5);
-          formPayload.append("plant6", this.formData.plant6);
-          formPayload.append("plant7", this.formData.plant7);
-          formPayload.append("plant8", this.formData.plant8);
-          formPayload.append("plant9", this.formData.plant9);
-          formPayload.append("plant10", this.formData.plant10);
-          formPayload.append("plant11", this.formData.plant11);
-          formPayload.append("plant12", this.formData.plant12);
-          formPayload.append("miscShortAnswer", this.formData.miscShortAnswer);
-
-          // Log the payload for debugging
-          console.log(
-            "Submitting post-survey data:",
-            Object.fromEntries(formPayload)
-          );
-          console.log("Sending survey type:", formPayload.get("survey")); // should log 'post'
-
-          // Send data to Google Sheets
-          const response = await fetch(scriptUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
-            },
-            body: formPayload,
-          });
-
-          const result = await response.json();
-
-          if (result.result === "success") {
-            console.log("Data saved to row:", result.row);
-          } else {
-            throw new Error(result.error || "Submission failed");
-          }
-        } catch (error) {
-          console.error("Submission error:", error);
-          alert("Failed to submit form. Please try again.");
-        }
-        this.$router.push(`/thanks`); // go to next page in route
-      } catch (error) {
-        alert("Submission failed. Please try again.");
-        console.error(error);
-        this.submitting = false; // allow retry
-      }
+      // Uncomment this block to enable form submission
+      // if (this.submitting) return; // extra guard
+      // this.submitting = true;
+      // try {
+      //   console.log("Submitting post-survey data...");
+      //   const pid = this.$route.params.pid; // Get participant ID from URL
+      //   this.treatment = this.$route.query.treatment || "unknown"; // Get treatment from query params
+      //   const scriptUrl =
+      //     "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
+      //   try {
+      //     // Prepare form data for your current script format
+      //     const formPayload = new URLSearchParams();
+      //     formPayload.append("pid", pid);
+      //     formPayload.append("survey", "post"); // Change stage to post
+      //     formPayload.append("timestamp", new Date().toISOString());
+      //     formPayload.append("treatment", this.treatment);
+      //     // Add all your form fields (match your sheet headers exactly)
+      //     formPayload.append("engagementPost", this.formData.engagementPost);
+      //     formPayload.append("motivationPost", this.formData.motivationPost);
+      //     formPayload.append("plant1", this.formData.plant1);
+      //     formPayload.append("plant2", this.formData.plant2);
+      //     formPayload.append("plant3", this.formData.plant3);
+      //     formPayload.append("plant4", this.formData.plant4);
+      //     formPayload.append("plant5", this.formData.plant5);
+      //     formPayload.append("plant6", this.formData.plant6);
+      //     formPayload.append("plant7", this.formData.plant7);
+      //     formPayload.append("plant8", this.formData.plant8);
+      //     formPayload.append("plant9", this.formData.plant9);
+      //     formPayload.append("plant10", this.formData.plant10);
+      //     formPayload.append("plant11", this.formData.plant11);
+      //     formPayload.append("plant12", this.formData.plant12);
+      //     formPayload.append("miscShortAnswer", this.formData.miscShortAnswer);
+      //     // Log the payload for debugging
+      //     console.log(
+      //       "Submitting post-survey data:",
+      //       Object.fromEntries(formPayload)
+      //     );
+      //     console.log("Sending survey type:", formPayload.get("survey")); // should log 'post'
+      //     // Send data to Google Sheets
+      //     const response = await fetch(scriptUrl, {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
+      //       },
+      //       body: formPayload,
+      //     });
+      //     const result = await response.json();
+      //     if (result.result === "success") {
+      //       console.log("Data saved to row:", result.row);
+      //     } else {
+      //       throw new Error(result.error || "Submission failed");
+      //     }
+      //   } catch (error) {
+      //     console.error("Submission error:", error);
+      //     alert("Failed to submit form. Please try again.");
+      //   }
+      //   this.$router.push(`/thanks`); // go to next page in route
+      // } catch (error) {
+      //   alert("Submission failed. Please try again.");
+      //   console.error(error);
+      //   this.submitting = false; // allow retry
+      // }
     },
   },
 };
@@ -395,5 +388,20 @@ input[type="radio"] {
 button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.demo-button {
+  background-color: #468966;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.demo-button:hover {
+  background-color: #356b51;
 }
 </style>

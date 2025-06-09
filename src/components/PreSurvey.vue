@@ -1,17 +1,17 @@
 <template>
   <div class="form-container">
     <h2>Pre-Survey</h2>
-    <form @submit.prevent="submitForm">
+    <form>
       <!-- Age -->
       <div class="form-group">
         <label for="age">Age:</label>
-        <input type="number" v-model="formData.age" id="age" required min="1" />
+        <input type="number" v-model="formData.age" id="age" min="1" />
       </div>
 
       <!-- Grade -->
       <div class="form-group">
         <label for="grade">Grade:</label>
-        <select v-model="formData.grade" id="grade" required>
+        <select v-model="formData.grade" id="grade">
           <option disabled value="">Select your grade</option>
           <option>9th</option>
           <option>10th</option>
@@ -29,14 +29,13 @@
           id="gradeOther"
           v-model="formData.gradeOther"
           placeholder="Please specify"
-          required
         />
       </div>
 
       <!-- Gender -->
       <div class="form-group">
         <label for="gender">Gender:</label>
-        <select v-model="formData.gender" id="gender" required>
+        <select v-model="formData.gender" id="gender">
           <option disabled value="">Select your gender</option>
           <option>Male</option>
           <option>Female</option>
@@ -47,7 +46,7 @@
 
       <!-- Do you live in Tennessee? -->
       <label for="liveInTN" class="block mt-4">Do you live in Tennessee?</label>
-      <select v-model="formData.liveInTN" id="liveInTN" required>
+      <select v-model="formData.liveInTN" id="liveInTN">
         <option disabled value="">Please select</option>
         <option>Yes</option>
         <option>No</option>
@@ -63,7 +62,6 @@
           id="yearsInTN"
           v-model="formData.yearsInTN"
           min="0"
-          required
         />
       </div>
 
@@ -79,7 +77,6 @@
                 :name="`scale${i}`"
                 :value="n"
                 v-model="formData[q.model]"
-                required
               />
               {{ n }}
             </label>
@@ -97,19 +94,19 @@
           id="interestShortAnswer"
           v-model="formData.interestShortAnswer"
           rows="4"
-          required
         ></textarea>
       </div>
-      <div>
-        <p>
-          Please wait a few seconds after clicking "Continue" for the next page
-          to load.
-        </p>
-      </div>
       <!-- Submit -->
-      <button type="submit" :disabled="submitting">
+      <!-- <button type="submit" :disabled="submitting">
         {{ submitting ? "Submitting..." : "Continue" }}
-      </button>
+      </button> -->
+      <p>
+        <i
+          >If this were the real experiment, you would be able to submit your
+          survey responses here.</i
+        >
+      </p>
+      <router-link to="/" class="demo-button">Go Home</router-link>
     </form>
   </div>
 </template>
@@ -164,82 +161,78 @@ export default {
   },
   methods: {
     async submitForm() {
-      if (this.submitting) return; // extra guard
-      this.submitting = true;
-
-      try {
-        console.log("Submitting pre-survey data...");
-        const pid = this.$route.params.pid; // Get participant ID from URL
-        const scriptUrl =
-          "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
-
-        try {
-          // Prepare form data for your current script format
-          const formPayload = new URLSearchParams();
-
-          formPayload.append("pid", pid);
-          formPayload.append("survey", "pre"); // Add stage to data
-          formPayload.append("timestamp", new Date().toISOString());
-          // Add all your form fields (match your sheet headers exactly)
-          formPayload.append("age", this.formData.age);
-          formPayload.append("grade", this.formData.grade);
-          // Add all other fields...
-          if (this.formData.grade === "Other") {
-            formPayload.append("gradeOther", this.formData.gradeOther);
-          }
-          formPayload.append("gender", this.formData.gender);
-          // Continue with all other fields...
-          formPayload.append("liveInTN", this.formData.liveInTN);
-          if (this.formData.liveInTN === "Yes") {
-            formPayload.append("yearsInTN", this.formData.yearsInTN);
-          }
-          formPayload.append(
-            "knowledgeGeneral",
-            this.formData.knowledgeGeneral
-          );
-          formPayload.append("interestGeneral", this.formData.interestGeneral);
-          formPayload.append("interestNative", this.formData.interestNative);
-          formPayload.append("motivationGame", this.formData.motivationGame);
-          formPayload.append(
-            "motivationArticle",
-            this.formData.motivationArticle
-          );
-          formPayload.append("natureTime", this.formData.natureTime);
-          formPayload.append(
-            "interestShortAnswer",
-            this.formData.interestShortAnswer
-          );
-          // Log the payload for debugging
-          console.log(
-            "Submitting pre-survey data:",
-            Object.fromEntries(formPayload)
-          );
-          // Send data to Google Sheets
-          const response = await fetch(scriptUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
-            },
-            body: formPayload,
-          });
-
-          const result = await response.json();
-
-          if (result.result === "success") {
-            console.log("Data saved to row:", result.row);
-          } else {
-            throw new Error(result.error || "Submission failed");
-          }
-        } catch (error) {
-          console.error("Submission error:", error);
-          alert("Failed to submit form. Please try again.");
-        }
-        this.$router.push(`/treatment/${pid}`); // go to next page in route
-      } catch (error) {
-        alert("Submission failed. Please try again.");
-        console.error(error);
-        this.submitting = false; // allow retry
-      }
+      // Uncomment this block to enable form submission
+      // if (this.submitting) return; // extra guard
+      // this.submitting = true;
+      // try {
+      //   console.log("Submitting pre-survey data...");
+      //   const pid = this.$route.params.pid; // Get participant ID from URL
+      //   const scriptUrl =
+      //     "https://script.google.com/macros/s/AKfycbwTvRoy02V9Cf7KQkVDE0npYlpNVN51mbN-jO2FrHdq7QLHun3nzCTRCAyJ6zMc71it/exec"; // Replace with your deployment URL
+      //   try {
+      //     // Prepare form data for your current script format
+      //     const formPayload = new URLSearchParams();
+      //     formPayload.append("pid", pid);
+      //     formPayload.append("survey", "pre"); // Add stage to data
+      //     formPayload.append("timestamp", new Date().toISOString());
+      //     // Add all your form fields (match your sheet headers exactly)
+      //     formPayload.append("age", this.formData.age);
+      //     formPayload.append("grade", this.formData.grade);
+      //     // Add all other fields...
+      //     if (this.formData.grade === "Other") {
+      //       formPayload.append("gradeOther", this.formData.gradeOther);
+      //     }
+      //     formPayload.append("gender", this.formData.gender);
+      //     // Continue with all other fields...
+      //     formPayload.append("liveInTN", this.formData.liveInTN);
+      //     if (this.formData.liveInTN === "Yes") {
+      //       formPayload.append("yearsInTN", this.formData.yearsInTN);
+      //     }
+      //     formPayload.append(
+      //       "knowledgeGeneral",
+      //       this.formData.knowledgeGeneral
+      //     );
+      //     formPayload.append("interestGeneral", this.formData.interestGeneral);
+      //     formPayload.append("interestNative", this.formData.interestNative);
+      //     formPayload.append("motivationGame", this.formData.motivationGame);
+      //     formPayload.append(
+      //       "motivationArticle",
+      //       this.formData.motivationArticle
+      //     );
+      //     formPayload.append("natureTime", this.formData.natureTime);
+      //     formPayload.append(
+      //       "interestShortAnswer",
+      //       this.formData.interestShortAnswer
+      //     );
+      //     // Log the payload for debugging
+      //     console.log(
+      //       "Submitting pre-survey data:",
+      //       Object.fromEntries(formPayload)
+      //     );
+      //     // Send data to Google Sheets
+      //     const response = await fetch(scriptUrl, {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/x-www-form-urlencoded", // Important for your current script
+      //       },
+      //       body: formPayload,
+      //     });
+      //     const result = await response.json();
+      //     if (result.result === "success") {
+      //       console.log("Data saved to row:", result.row);
+      //     } else {
+      //       throw new Error(result.error || "Submission failed");
+      //     }
+      //   } catch (error) {
+      //     console.error("Submission error:", error);
+      //     alert("Failed to submit form. Please try again.");
+      //   }
+      //   this.$router.push(`/treatment/${pid}`); // go to next page in route
+      // } catch (error) {
+      //   alert("Submission failed. Please try again.");
+      //   console.error(error);
+      //   this.submitting = false; // allow retry
+      // }
     },
   },
 };
@@ -282,5 +275,20 @@ select {
 button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.demo-button {
+  background-color: #468966;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.demo-button:hover {
+  background-color: #356b51;
 }
 </style>
